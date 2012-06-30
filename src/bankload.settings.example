@@ -1,0 +1,3 @@
+SETTINGS = {
+	'downloadPath' => 'c:/users/peter/downloads' # the ofx file will be saved to this location
+}

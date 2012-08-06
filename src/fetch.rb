@@ -27,7 +27,7 @@ def fetch_transactions(bankInfo, startDate, endDate)
     
     
     #send the request and return the result
-    financial_institution.send(requestDocument)
+    financial_institution.sendAndGetResponseBody(requestDocument)
 end
         
     

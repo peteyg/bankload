@@ -53,9 +53,12 @@ info.each{ |i|
         next
     end
     
+	institution = OFX::FinancialInstitution.new('Parser', nil, OFX::Version.new("1.0.2"))
+	ofxDoc = institution.parseResponseBody(statement)
+	
     #report on what we got back
     expectedMsgType = (i.accountType == :creditCard) ? OFX::CreditCardStatementMessageSet : OFX::BankingMessageSet
-    transactionMsg = statement.message_sets.find { |x| x.kind_of?(expectedMsgType) }.responses[0]
+    transactionMsg = ofxDoc.message_sets.find { |x| x.kind_of?(expectedMsgType) }.responses[0]
     
     puts transactionMsg.status.kind_of?(OFX::Success) ?
         "Retrieved #{transactionMsg.transactions ? transactionMsg.transactions.length : 0} transactions from #{i.name}" :
@@ -64,6 +67,7 @@ info.each{ |i|
     # save the ofx file
     fileName = i.name + startDate.to_s + "_" + endDate.to_s + ".ofx"
     outPath = Pathname(SETTINGS["downloadPath"] || "") + fileName 
+
     File.open(outPath, 'w') {|f| f.write(statement) }
     puts "Saved: " + outPath.to_s
 } if info

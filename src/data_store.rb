@@ -18,7 +18,7 @@ module DataStore
         encrypted = ""
         # figure out the destination file
         blowfish = Crypt::Blowfish.new(key)
-        File.open(filename || 'bankload.dat', 'rb') { |f| 
+        File.open(filename || 'datastore.dat', 'rb') { |f| 
             encrypted = f.read
         }
         inString = blowfish.decrypt_string(encrypted)

@@ -33,9 +33,12 @@ module DataStore
     
     def DataStore.add( key )
         # read in the current file
-        info, msg = DataStore.read(key)
-        abort msg if info == nil
-
+        if (File.exists?('datastore.dat'))
+            info, msg = DataStore.read(key)
+            abort msg if info == nil
+        else
+            info = []
+        end
         
         # ask for the various pieces of data
         name = ask("Enter name:  ") { |q| 
